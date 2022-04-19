@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mgd.login.dao.UserDao">
+
+
+    <resultMap id="UserMap" type="com.mgd.login.domain.User">
+        <id column="" property=""/>
+        <result column="uid" property="uid"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="created_user" property="createdUser"/>
+        <result column="created_time" property="createdTime"/>
+        <result column="modified_user" property="modifiedUser"/>
+        <result column="modified_time" property="modifiedTime"/>
+
+    </resultMap>
+
+    <sql id="selectAll">
+        select uid, username, password, salt, phone, email, gender, avatar, is_delete, created_user, created_time, modified_user, modified_time, age from  t_user
+    </sql>
+    <select id="selectUserByNameAndPwd" resultMap="UserMap">
+     <include refid="selectAll"/> where username=#{username} and password=#{password}
+
+    </select>
+
+    <select id="selectUserByName" resultMap="UserMap">
+        <include refid="selectAll"/> where username=#{username}
+    </select>
+    
+    <select id="selectUserById" resultMap="UserMap">
+        <include refid="selectAll"/> where uid=#{uid}
+    </select>
+
+    <insert id="addUser">
+
+      insert into t_user (uid, username, password, salt, phone, email, gender, avatar, is_delete, created_user, created_time, modified_user, modified_time, age) values (null,#{username},#{password},#{salt},#{phone},#{email},#{gender},#{avatar},#{isDelete},#{createdUser},#{createdTime},#{modifiedUser},#{modifiedTime},#{age})
+
+    </insert>
+    <update id="updateUser">
+        update t_user set phone =#{phone},email = #{email},gender=#{gender},modified_user=#{modifiedUser}, modified_time=#{modifiedTime} where uid =#{uid}
+
+    </update>
+
+    <update id="updatePhoto">
+        update t_user set avatar =#{avatar},modified_user=#{modifiedUser}, modified_time=#{modifiedTime} where uid =#{uid}
+    </update>
+
+</mapper>
